@@ -1,5 +1,9 @@
 //TODO APP
+
+import {uuidv1} from 'uuid/';
+
 document.addEventListener("DOMContentLoaded", function() {
+
 
   let state = [];
 
