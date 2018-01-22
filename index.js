@@ -1,29 +1,38 @@
-//TODO APP
 
+//TODO APP
+import EventEmitter from 'events'
+
+// we create an instance of EventEmitter to emit and
+// listen to events
+const bus = new EventEmitter
 var yo = require('yo-yo')
 const uuidv1 = require('uuid/v1');
 
-var state = [];
 
+// we call the reducer function, imported above, and send it
+// the bus and state created here as arguments
+
+var state = [];
 var el = list(state, add)
- 
+reducer()
+
 function list (items, onclick) {
 
   var input = yo`<input type="text" id="todoVal">`
-  console.table(state)
+  console.table(items)
   return yo`<div>
-    TODO
+    Todo Classic
     ${input}
     <button id="addTodoButt" onclick=${onclick}>Add</button>
-    <p>todo</p>
+    <p>TODO</p>
     <ul>
-      ${items.filter(function(el, i) {
+     ${items.filter(function(el, i) {
       return el.status !== 'done';
       }).map(function (item) {
         return yo`<li id="${item.id}">${item.value}<button onclick=${done}>Done</button></li>`
       })}
     </ul>
-    <p>done</p>
+    <p>DONE</p>
     <ul>
       ${items.filter(function(el, i) {
       return el.status !== 'pending';
@@ -34,28 +43,43 @@ function list (items, onclick) {
   </div>`
 }
 
-function add () {
-  // add a new random number to our list 
-  var num = uuidv1()
-
-  var todo = {};
-    todo.id = uuidv1();
-    todo.value = document.getElementById('todoVal').value;
-    todo.status = 'pending';
-    state = [
-      ...state,
-      todo
-    ];
-
-  
-  // construct a new list and efficiently diff+morph it into the one in the DOM 
-  var newList = list(state, add)
-  yo.update(el, newList)
+// to make your code
+function add() {
+  bus.emit('add')
 }
- 
-function done (ev) {
-  // add a new random number to our list 
-  var id = ev.target.parentNode.getAttribute('id')
+
+// to make your code
+function done(ev) {
+  bus.emit('done', ev)
+}
+
+// to make your code
+function erase(ev) {
+  bus.emit('erase', ev)
+}
+
+
+function reducer() {
+
+ bus.on('add', function() {
+      // add a new random number to our list 
+    var num = uuidv1()
+
+    var todo = {};
+      todo.id = uuidv1();
+      todo.value = document.getElementById('todoVal').value;
+      todo.status = 'pending';
+      state = [
+        ...state,
+        todo
+      ];
+    var newList = list(state, add)
+    yo.update(el, newList)
+  })
+
+  bus.on('done', function(ev) {
+     // add a new random number to our list 
+    var id = ev.target.parentNode.getAttribute('id')
     state.map(function(item) {
       console.log(state)
       if (item.id == id){
@@ -63,21 +87,24 @@ function done (ev) {
       }
     });
 
- var newList = list(state, add)
-  yo.update(el, newList)
-}
 
-function erase (ev) {
-  // add a new random number to our list 
-  console.log("123")
-  var id = ev.target.parentNode.getAttribute('id')
+    var newList = list(state, add)
+    yo.update(el, newList)
+  })
+
+    bus.on('erase', function(ev) {
+    var id = ev.target.parentNode.getAttribute('id')
+    console.log(id)
     state = state.filter(function(el, i) {
       return id !== el.id;
     });
 
- var newList = list(state, add)
-  yo.update(el, newList)
-}
 
+    var newList = list(state, add)
+    yo.update(el, newList)
+  })
+
+
+}
  
 document.body.appendChild(el)
