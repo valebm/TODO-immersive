@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types'
 
 const TodoItem = ({todo, remove}) => {
   // Each Todo
@@ -9,3 +10,12 @@ const TodoItem = ({todo, remove}) => {
 
  export default TodoItem;
 
+ TodoItem.propTypes = {
+ 	todos: PropTypes.array,
+ 	remove: PropTypes.func,
+}
+
+  TodoItem.defaultProps = {
+ 	todos: [],
+ 	remove: () => { },
+ }

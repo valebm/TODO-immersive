@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoItem from './TodoItem';
+import PropTypes from 'prop-types'
 
 
 const TodoList = ({todos, remove, erase}) => {
@@ -19,5 +20,17 @@ const TodoList = ({todos, remove, erase}) => {
 
   return (<div><p>TODO</p><ul>{todoItems}</ul><p>DONE</p><ul>{doneItems}</ul></div>);
 }
+
+ TodoList.propTypes = {
+ 	todos: PropTypes.array,
+ 	remove: PropTypes.func,
+ 	erase: PropTypes.func,
+ }
+
+  TodoList.defaultProps = {
+ 	todos: [],
+ 	remove: () => { },
+ 	erase: () => { },
+ }
 
  export default TodoList;

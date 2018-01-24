@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoList from './TodoList';
 
+
 const uuidv1 = require('uuid/v1');
 // Contaner Component
 
@@ -9,6 +10,7 @@ const uuidv1 = require('uuid/v1');
 class TodoContainer extends React.Component{
 
   constructor(props){
+ 
     // Pass props to parent class
     super(props);
     // Set initial state
@@ -16,6 +18,7 @@ class TodoContainer extends React.Component{
       todos: [],
       value: ''
     }
+
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -73,6 +76,18 @@ class TodoContainer extends React.Component{
       <TodoList todos={this.state.todos} remove={this.handleRemove} erase={this.handleErase}/>           
     </div> 
     );
+  }
+
+
+  componentDidMount(){
+
+	const url = 'http://localhost:3000/todos';
+
+	fetch(url)
+	  .then((resp) => resp.json())
+	  .then((data) => {    
+   		this.setState({todos: data});
+	  })
   }
 }
 

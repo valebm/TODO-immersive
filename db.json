@@ -1,0 +1,25 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "val": "item1",
+      "done": false
+    },
+    {
+      "id": 2,
+      "val": "item2",
+      "done": false
+    },
+    {
+      "id": 3,
+      "val": "item3",
+      "done": false
+    },
+    {
+      "id": 4,
+      "val": "item4",
+      "done": true
+    }
+
+  ]
+}
