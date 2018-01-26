@@ -4,33 +4,18 @@ import TodoItem from './TodoItem';
 import PropTypes from 'prop-types'
 
 
-const TodoList = ({todos, remove, erase}) => {
+const TodoList = (props) => {
+console.log("props", props.todos)
   // Map through the todos
-  const todoItems = todos.filter(function(el, i) {
+  const todoItems = props.todos.filter(function(el, i) {
       return el.done !== true;
       }).map((todo) => {
-    return (<TodoItem todo={todo} remove={remove} key={todo.id}/>)
+        console.log("todo", todo)
+    return (<TodoItem todo={todo} key={todo.id}/>)
   });
 
-  const doneItems = todos.filter(function(el, i) {
-      return el.done !== false;
-      }).map((todo) => {
-    return (<TodoItem todo={todo} remove={erase} key={todo.id}/>)
-  });
 
-  return (<div><p>TODO</p><ul>{todoItems}</ul><p>DONE</p><ul>{doneItems}</ul></div>);
+  return (<div><p>TODO</p><ul>{todoItems}</ul></div>);
 }
-
- TodoList.propTypes = {
- 	todos: PropTypes.array,
- 	remove: PropTypes.func,
- 	erase: PropTypes.func,
- }
-
-  TodoList.defaultProps = {
- 	todos: [],
- 	remove: () => { },
- 	erase: () => { },
- }
 
  export default TodoList;

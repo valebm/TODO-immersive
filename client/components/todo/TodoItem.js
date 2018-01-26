@@ -2,20 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types'
 
-const TodoItem = ({todo, remove}) => {
+const TodoItem = (props) => {
   // Each Todo
-  return (<li id={todo.id}>{todo.val}<button id="doneTodoButt" onClick={remove}>Done</button></li>);
+  return (<li key={props.todo.id}>{props.todo.val}<button id="doneTodoButt">Done</button></li>);
 }
 
 
  export default TodoItem;
 
- TodoItem.propTypes = {
- 	todos: PropTypes.array,
- 	remove: PropTypes.func,
-}
-
-  TodoItem.defaultProps = {
- 	todos: [],
- 	remove: () => { },
- }
